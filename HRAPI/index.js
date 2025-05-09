@@ -331,6 +331,61 @@ app.get('/no60',async(req,res)=>{
     }
 });
 
+app.get('/no61',async(req,res)=>{
+    try{
+        const result = await pool.query('select d.department_id, d.department_name, l.city from departments d join locations l on d.location_id= l.location_id where l.city like 'N%' limit 5');
+        res.json(result.rows);
+
+    }catch(err){
+        res.status(500).json({Error:err.message});
+
+    }
+});
+
+app.get('/no62',async(req,res)=>{
+    try{
+        const result = await pool.query('select e.employee_id, e.first_name, e.salary, e.commission_pct, d.department_id, d.manager_id from employees e join departments d on e.manager_id = d.manager_id where e.commission_pct > 0.15 limit 5');
+        res.json(result.rows);
+
+    }catch(err){
+        res.status(500).json({Error:err.message});
+
+    }
+});
+
+app.get('/no63',async(req,res)=>{
+    try{
+        const result = await pool.query('select e.manager_id, j.job_title from employees e join jobs j on e.job_id=j.job_id where manager_id is not null limit 5');
+        res.json(result.rows);
+
+    }catch(err){
+        res.status(500).json({Error:err.message});
+
+    }
+});
+
+app.get('/no64',async(req,res)=>{
+    try{
+        const result = await pool.query('select l.postal_code, r.region_name from locations l join countries c on l.country_id=c.country_id  join regions r on c.region_id= r.region_id where region_name ='Asia' limit 5 ');
+        res.json(result.rows);
+
+    }catch(err){
+        res.status(500).json({Error:err.message});
+
+    }
+});
+
+app.get('/no65',async(req,res)=>{
+    try{
+        const result = await pool.query('select e.first_name,e.commission_pct, d.department_name from employees e join departments d on e.department_id=d.department_id where e.commission_pct < (select avg(commission_pct) from employees) limit 5');
+        res.json(result.rows);
+
+    }catch(err){
+        res.status(500).json({Error:err.message});
+
+    }
+});
+
 
 
 
