@@ -553,6 +553,20 @@ app.get('/no80',async(req,res)=>{
     }
 });
 
+app.get('/country',async(req,res)=>{
+    try{
+        const result = await pool.query('select * from countries');
+        res.json(result.rows);
+
+    }catch(err){
+        res.status(500).json({Error:err.message});
+
+    }
+});
+
+
+
+
 
 
 
